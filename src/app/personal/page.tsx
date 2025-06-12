@@ -7,6 +7,7 @@ export default function PersonalGate() {
   const [input, setInput] = useState("");
   const [locked, setLocked] = useState(false);
   const [shake, setShake] = useState(false);
+  const [denied, setDenied] = useState(false);
   const router = useRouter();
   const keypadRef = useRef<HTMLDivElement>(null);
 
@@ -15,12 +16,47 @@ export default function PersonalGate() {
     if (navigator.vibrate) navigator.vibrate(50);
     const newInput = input + value;
     setInput(newInput);
-    if (newInput === "2501") {
-      router.push("/personal/family");
+
+    if (newInput.length === 4) {
+      authenticate(newInput);
     } else if (newInput.length >= 8) {
       setLocked(true);
       setShake(true);
+      setDenied(true);
     }
+  };
+
+  const authenticate = async (pin: string) => {
+    try {
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pin }),
+      });
+      if (res.ok) {
+        router.push("/personal/family");
+      } else {
+        setLocked(true);
+        setShake(true);
+        setDenied(true);
+      }
+    } catch (error) {
+      console.error("Auth error:", error);
+      setLocked(true);
+      setShake(true);
+      setDenied(true);
+    }
+  };
+
+  const handleDelete = () => {
+    if (locked || input.length === 0) return;
+    setInput((prev) => prev.slice(0, -1));
+  };
+
+  const handleCancel = () => {
+    if (locked) return;
+    setInput("");
+    setDenied(false);
   };
 
   useEffect(() => {
@@ -39,7 +75,7 @@ export default function PersonalGate() {
         <div className="text-center text-4xl tracking-widest font-mono p-4 bg-white rounded-lg shadow-inner border border-gray-300 mb-4">
           {input.padEnd(4, "•")}
         </div>
-        {locked && (
+        {denied && (
           <p className="text-red-500 text-center mb-4 text-sm">
             Sorry, you do not have access to this page. Please contact Isaac if
             you need the password.
@@ -61,7 +97,28 @@ export default function PersonalGate() {
             </button>
           ))}
         </div>
+
+        <div className="flex justify-between mt-6">
+          <button
+            onClick={() => alert("Contact Isaac at isaachirsch@gmail.com")}
+            className="text-sm px-4 py-2 rounded-md text-blue-600 font-medium hover:bg-blue-50"
+          >
+            Get Password
+          </button>
+
+          <button
+            onClick={input ? handleDelete : handleCancel}
+            className={`text-sm px-4 py-2 rounded-md font-medium transition ${
+              input
+                ? "text-red-600 hover:bg-red-100"
+                : "text-gray-600 hover:bg-gray-200"
+            }`}
+          >
+            {input ? "Delete" : "Cancel"}
+          </button>
+        </div>
       </div>
+
       <style jsx>{`
         .animate-shake {
           animation: shake 0.4s ease-in-out;
