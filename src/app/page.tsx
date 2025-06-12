@@ -24,12 +24,13 @@ export default function Home() {
               alt="Business"
               width={800}
               height={600}
-              priority // ✅ Add this
+              priority
+              className="rounded-xl shadow-md"
             />
           </div>
           <div className="md:w-1/2">
             <h2 className="text-3xl font-bold text-gray-800 mb-2">
-              Business / Professional
+              Professional
             </h2>
             <p className="text-gray-700 mb-4">
               Explore my CV, engineering philosophy, and tech projects grounded
@@ -56,12 +57,11 @@ export default function Home() {
             />
           </div>
           <div className="md:w-1/2">
-            <h2 className="text-3xl font-bold text-gray-800 mb-2">
-              Private / Family
-            </h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">Family</h2>
             <p className="text-gray-700 mb-4">
-              A grounded, intentional life. Learn about my background, personal
-              values, and what drives me beyond the screen.
+              A thoughtfully designed space for my family to stay connected,
+              share updates, and support each other across distances. A quiet
+              reflection of what drives me beyond the screen
             </p>
             <Link
               href="/personal"

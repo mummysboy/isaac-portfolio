@@ -22,7 +22,7 @@ export default function BusinessPage() {
             View CV
           </Link>
           <a
-            href="/isaac_hirsch_cv.pdf"
+            href="/Isaac_Hirsch_Software_Engineer_Resume.pdf"
             download
             className="border border-blue-600 text-blue-600 hover:bg-blue-50 px-5 py-2 rounded-full text-sm font-semibold transition"
           >
