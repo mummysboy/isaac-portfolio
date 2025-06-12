@@ -22,9 +22,9 @@ export default function Home() {
             <Image
               src="/images/business.jpeg"
               alt="Business"
-              width={600}
-              height={400}
-              className="rounded-xl shadow-md"
+              width={800}
+              height={600}
+              priority // ✅ Add this
             />
           </div>
           <div className="md:w-1/2">

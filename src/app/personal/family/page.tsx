@@ -1,30 +1,15 @@
-// app/personal/family/page.tsx
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function FamilyPage() {
-  const router = useRouter();
-  const [authorized, setAuthorized] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // 👀 Oh hey there, code explorer. Looking for secrets?
-    // Sorry, this isn't Fort Knox — just soft gatekeeping.
-    // But you're clever... consider this your official Isaac Easter egg.
-    const access = sessionStorage.getItem("authorized");
-
-    if (access === "true") {
-      setAuthorized(true);
-      setTimeout(() => setMounted(true), 50);
-    } else {
-      // 🕵️‍♂️ You thought you could just sneak in? Back to the keypad, hacker!
-      router.push("/personal");
-    }
-  }, [router]);
-
-  if (!authorized) return null;
+    // ✅ Only handles visual fade-in, not security
+    const timer = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <main

@@ -33,8 +33,13 @@ export default function PersonalGate() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ pin }),
       });
-      if (res.ok) {
-        router.push("/personal/family");
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setTimeout(() => {
+          window.location.href = "/personal/family";
+        }, 300);
       } else {
         setLocked(true);
         setShake(true);
@@ -47,6 +52,8 @@ export default function PersonalGate() {
       setDenied(true);
     }
   };
+  
+  
 
   const handleDelete = () => {
     if (locked || input.length === 0) return;
