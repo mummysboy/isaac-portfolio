@@ -23,14 +23,14 @@ export default function ExtracurricularPage() {
       description:
         "Exploring diverse cultures and landscapes fuels my curiosity and broadens the way I think about global problems and local solutions.",
       link: "/extracurricular/travel",
-      image: "/images/extracurricular/travel.jpg",
+      image: "/images/travel.jpeg",
     },
     {
-      title: "Volunteering",
+      title: "Music",
       description:
-        "Giving back through mentorship, education, and community initiatives keeps me grounded and connected beyond tech.",
-      link: "/extracurricular/volunteering",
-      image: "/images/extracurricular/volunteering.jpg",
+        "Music is one of my most creative outlets—writing, producing, and even making songs with AI has become a way to experiment and express.",
+      link: "/extracurricular/music",
+      image: "/images/music.jpeg",
     },
   ];
 
@@ -77,7 +77,7 @@ export default function ExtracurricularPage() {
                   alt={`${section.title} image`}
                   width={800}
                   height={500}
-                  className="rounded-lg shadow-lg object-cover w-full h-[300px] md:h-[400px]"
+                  className="object-cover w-full h-[500px] md:h-[500px] rounded-lg shadow-lg"
                   priority
                 />
               </div>
