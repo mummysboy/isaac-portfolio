@@ -12,11 +12,11 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleEmailClick = () => {
-    alert("📬 Email me at: isaac@yourdomain.com");
+    alert("Email me at: isaac@gmail.com");
   };
 
   return (
-    <nav className="fixed top-6 right-6 z-50">
+    <nav className="fixed top-6 right-6 md:right-24 z-50">
       {/* Hamburger (mobile) */}
       <button
         onClick={() => setMenuOpen(!menuOpen)}
