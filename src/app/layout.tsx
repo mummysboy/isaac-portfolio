@@ -14,8 +14,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Isaac Hirsch – Engineer, Creator, Human",
-  description:
-    "A full-stack developer focused on backend systems, AI, and meaningful user experiences—powered by curiosity, grounded in values. Explore my projects, interests, and the people who shaped my journey, on and off the screen.",
+  description: "A full-stack developer focused on backend systems, AI, and meaningful user experiences—powered by curiosity, grounded in values. Explore my projects, interests, and the people who shaped my journey, on and off the screen.",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
