@@ -12,15 +12,15 @@ export default function ExploreRugbyPage() {
   const gratitudeSections = [
     {
       title: "Youth Coaches",
-      names: ["Tim Hoffman", "Francis Leaupepe", "Kurt Dulka"],
+      names: ["Tim Hoffman", "Francis Leaupepe", "Kurt Dulka", "Tom Bateman"],
     },
     {
       title: "Men's Club Coaches",
-      names: ["Kevin Battle", "Mike MacDonald"],
+      names: ["Kevin Battle", "Mike MacDonald", "Tiaan Bazandi", "Lance Mason"],
     },
     {
       title: "National Team Coaches",
-      names: ["Ranaan Pen", "Kevin Musikanth"],
+      names: ["Ranaan Pen", "Kevin Musikanth", "Nimi Kaplan"],
     },
     {
       title: "Rugby & Life Mentors",
@@ -60,8 +60,8 @@ export default function ExploreRugbyPage() {
           Explore Rugby
         </h1>
         <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-          First and foremost, I would like to thank the people who shaped my
-          rugby journey and instilled values that transcend the sport.
+          I would like to start by thanking the people who shaped my rugby
+          journey and instilled values that transcend the sport
         </p>
       </header>
 
