@@ -1,17 +1,13 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import { CognitoAuthService } from '@/utils/cognito-auth';
 import Link from 'next/link';
 
 export default async function FamilyPage() {
   // Server-side authentication check
-  const cookieStore = cookies();
-  const sessionCookie = cookieStore.get('cognito_session');
+  const sessionCookie = (await cookies()).get('cognito_session');
 
-  // Use CognitoAuthService to check authentication (server-side)
   let isAuthenticated = false;
   if (sessionCookie && sessionCookie.value === 'authenticated') {
-    // Optionally, you could do a deeper check here
     isAuthenticated = true;
   }
 
