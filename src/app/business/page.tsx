@@ -106,11 +106,11 @@ export default function BusinessPage() {
           </li>
           <li>
             <a
-              href="https://www.sequoiacap.com/article/the-ai-era/"
+              href="https://www.sequoiacap.com/stories/"
               className="text-blue-600 hover:underline"
               target="_blank"
             >
-              Sequoia Capital: The AI Era
+              Sequoia Capital: Stories
             </a>{" "}
             – Strategic breakdown of AI evolution.
           </li>
@@ -174,6 +174,17 @@ export default function BusinessPage() {
             </a>{" "}
             – Official updates and research from Google’s AI division.
           </li>
+          <li>
+            <a
+              href="https://openai.com/news/"
+              className="text-blue-600 hover:underline"
+              target="_blank"
+            >
+              OpenAI Newsroom
+            </a>{" "}
+            – Official announcements, research updates, and product releases
+            from OpenAI.
+          </li>
         </ul>
       </section>
 
@@ -198,7 +209,7 @@ export default function BusinessPage() {
           </li>
           <li>
             <a
-              href="https://www.amazon.com/NVIDIA-Way-How-Innovate-Challenge/dp/0071633531"
+              href="https://www.amazon.com/s?k=the+nvidia+way&hvadid=713789360849&hvdev=c&hvexpln=67&hvlocphy=9198693&hvnetw=g&hvocijid=15899464868562285346--&hvqmt=e&hvrand=15899464868562285346&hvtargid=kwd-2363804305089&hydadcr=21873_13324215&mcid=663804c7c41a35699bd9e0685fb7b22d&tag=googhydr-20&ref=pd_sl_7ft8v37d1k_e_p67"
               className="text-blue-600 hover:underline"
               target="_blank"
             >
@@ -225,16 +236,6 @@ export default function BusinessPage() {
               Shape Up
             </a>{" "}
             – Basecamp’s product strategy and development methodology.
-          </li>
-          <li>
-            <a
-              href="https://press.stripe.com/"
-              className="text-blue-600 hover:underline"
-              target="_blank"
-            >
-              Stripe Press Books
-            </a>{" "}
-            – Beautifully curated books on technology, economics, and progress.
           </li>
           <li>
             <a

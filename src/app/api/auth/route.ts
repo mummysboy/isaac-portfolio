@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { generateToken } from "@/utils/auth";
+import { CognitoAuthService } from "@/utils/cognito-auth";
 import { checkRateLimit } from "@/utils/rate-limit";
 
 export async function POST(req: Request) {
@@ -12,16 +12,29 @@ export async function POST(req: Request) {
     );
   }
 
-  const { pin } = await req.json();
+  const { phoneNumber, password } = await req.json();
 
-  if (pin === "2501") {
-    const token = await generateToken();
+  if (!phoneNumber || !password) {
+    return NextResponse.json(
+      { success: false, message: "Phone number and password are required" },
+      { status: 400 }
+    );
+  }
 
-    const response = NextResponse.json({ success: true });
-    response.cookies.set("auth_token", token, {
+  const result = await CognitoAuthService.signIn({ phoneNumber, password });
+
+  if (result.success && result.session) {
+    const response = NextResponse.json({ 
+      success: true, 
+      message: result.message,
+      user: result.session.user 
+    });
+    
+    // Set secure session cookie
+    response.cookies.set("cognito_session", "authenticated", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 6,
+      maxAge: 60 * 60 * 24 * 7, // 7 days
       sameSite: "lax",
       path: "/",
     });
@@ -29,5 +42,8 @@ export async function POST(req: Request) {
     return response;
   }
 
-  return NextResponse.json({ success: false }, { status: 401 });
+  return NextResponse.json(
+    { success: false, message: result.message },
+    { status: 401 }
+  );
 }
