@@ -1,22 +1,26 @@
-"use client";
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { CognitoAuthService } from '@/utils/cognito-auth';
+import Link from 'next/link';
 
-export default function FamilyPage() {
-  const [mounted, setMounted] = useState(false);
+export default async function FamilyPage() {
+  // Server-side authentication check
+  const cookieStore = cookies();
+  const sessionCookie = cookieStore.get('cognito_session');
 
-  useEffect(() => {
-    // ✅ Only handles visual fade-in, not security
-    const timer = setTimeout(() => setMounted(true), 50);
-    return () => clearTimeout(timer);
-  }, []);
+  // Use CognitoAuthService to check authentication (server-side)
+  let isAuthenticated = false;
+  if (sessionCookie && sessionCookie.value === 'authenticated') {
+    // Optionally, you could do a deeper check here
+    isAuthenticated = true;
+  }
+
+  if (!isAuthenticated) {
+    redirect('/personal');
+  }
 
   return (
-    <main
-      className={`min-h-screen bg-gradient-to-b from-pink-50 to-yellow-50 text-gray-900 px-6 md:px-24 py-16 transition-opacity duration-1000 ease-in-out ${
-        mounted ? "opacity-100" : "opacity-0"
-      }`}
-    >
+    <main className="min-h-screen bg-gradient-to-b from-pink-50 to-yellow-50 text-gray-900 px-6 md:px-24 py-16 transition-opacity duration-1000 ease-in-out opacity-100">
       <header className="mb-16 text-center">
         <h1 className="text-4xl md:text-5xl font-extrabold text-rose-700 mb-4">
           Family & Personal Life

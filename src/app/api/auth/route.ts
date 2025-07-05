@@ -30,7 +30,17 @@ export async function POST(req: Request) {
       user: result.session.user 
     });
     
-    // Set secure session cookie
+    // Set Cognito ID token cookie for middleware
+    if (result.session.tokens?.idToken) {
+      response.cookies.set("id_token", result.session.tokens.idToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+        sameSite: "lax",
+        path: "/",
+      });
+    }
+    // Optionally, keep your existing cognito_session cookie
     response.cookies.set("cognito_session", "authenticated", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
