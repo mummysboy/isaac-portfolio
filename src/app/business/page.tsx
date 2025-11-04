@@ -59,7 +59,7 @@ export default function BusinessPage() {
           </h2>
           <p className="text-gray-700">
             I build scalable APIs, data pipelines, and logic integrations using
-            Node, Firebase, Supabase, and cloud-native tooling. I write clean,
+            AWS, Supabase, and cloud-native tooling. I write clean,
             secure code designed for long-term maintainability.
           </p>
         </div>
@@ -78,9 +78,9 @@ export default function BusinessPage() {
             Reliable Collaboration
           </h2>
           <p className="text-gray-700">
-            Cross-functional, async, fast-moving, or legacy—I've worked in them
-            all. I’m known for shipping on time, asking smart questions, and
-            mentoring with empathy.
+            Cross-functional, async, fast-moving, or legacy—I'm always happy to dive
+            in. I’m known for shipping on time, asking smart questions, and
+            breaking builds.
           </p>
         </div>
       </section>

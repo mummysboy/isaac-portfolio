@@ -14,21 +14,21 @@ export default function ExtracurricularPage() {
     {
       title: "Rugby",
       description:
-        "From national team caps to local community matches, rugby has shaped my approach to discipline, leadership, and teamwork.",
+        "After playing competitively for 20 years, my participation in the sport is starting to evolve into a coaching role. I am exited to see what the next 20 years has in store for me.",
       link: "/extracurricular/rugby",
       image: "/images/rugby.jpeg",
     },
     {
       title: "Travel",
       description:
-        "Exploring diverse cultures and landscapes fuels my curiosity and broadens the way I think about global problems and local solutions.",
+        "There are few things I find more exciting than doing my boring routine in a new place.",
       link: "/extracurricular/travel",
       image: "/images/travel.jpeg",
     },
     {
       title: "Music",
       description:
-        "Music is one of my most creative outlets—writing, producing, and even making songs with AI has become a way to experiment and express.",
+        "Someday I will give up my private life for fame and fortune. Until then, I'm happy coding.",
       link: "/extracurricular/music",
       image: "/images/music.jpeg",
     },

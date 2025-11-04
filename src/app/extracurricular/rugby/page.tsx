@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import Image from "next/image";
 
 export default function ExploreRugbyPage() {
   const [visible, setVisible] = useState(false);
@@ -28,26 +28,7 @@ export default function ExploreRugbyPage() {
     },
   ];
 
-  const memories = [
-    {
-      title: "First National Team Cap",
-      preview:
-        "Representing my country for the first time was a surreal and humbling experience...",
-      link: "/extracurricular/rugby/first-cap",
-    },
-    {
-      title: "Winning the NorCal Championship",
-      preview:
-        "With the Santa Barbara Rugby Academy, this victory represented months of grit...",
-      link: "/extracurricular/rugby/norcal-championship",
-    },
-    {
-      title: "Touring with the U.S. Development Squad",
-      preview:
-        "Playing internationally and learning from top-tier talent was both a challenge...",
-      link: "/extracurricular/rugby/dev-squad-tour",
-    },
-  ];
+
 
   return (
     <main
@@ -64,6 +45,19 @@ export default function ExploreRugbyPage() {
           journey and instilled values that transcend the sport
         </p>
       </header>
+
+      <div className="mb-16 max-w-5xl mx-auto">
+        <div className="rounded-lg overflow-hidden shadow-lg">
+          <Image
+            src="/NYAC_09272025-_174-1024x740.jpg"
+            alt="Rugby"
+            width={1024}
+            height={740}
+            className="object-cover w-full h-auto rounded-lg"
+            priority
+          />
+        </div>
+      </div>
 
       <section className="grid gap-8 md:grid-cols-2 lg:grid-cols-2 max-w-5xl mx-auto mb-24">
         {gratitudeSections.map((section) => (
@@ -88,32 +82,8 @@ export default function ExploreRugbyPage() {
         ))}
       </section>
 
-      <section className="max-w-5xl mx-auto space-y-20">
-        <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
-          Highlighted Memories
-        </h2>
-        {memories.map((memory, index) => (
-          <div
-            key={index}
-            className={`flex flex-col md:flex-row items-center gap-8 ${
-              index % 2 === 1 ? "md:flex-row-reverse" : ""
-            }`}
-          >
-            <div className="flex-1 bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-2">
-                {memory.title}
-              </h3>
-              <p className="text-gray-700 mb-4">{memory.preview}</p>
-              <Link
-                href={memory.link}
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full font-semibold transition"
-              >
-                Read More
-              </Link>
-            </div>
-            <div className="flex-1 h-48 md:h-64 bg-gray-200 rounded-lg w-full" />
-          </div>
-        ))}
+      <section className="max-w-5xl mx-auto text-center">
+        <p className="text-xl text-gray-600">More Content Coming soon</p>
       </section>
     </main>
   );

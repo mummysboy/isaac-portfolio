@@ -1,5 +1,6 @@
 import { signIn, signUp, signOut, getCurrentUser, fetchAuthSession, confirmSignUp, resendSignUpCode } from 'aws-amplify/auth';
 import { CognitoUser } from 'amazon-cognito-identity-js';
+import { configureAmplify } from './amplify-config';
 
 export interface AuthUser {
   id: string;
@@ -31,7 +32,35 @@ export interface AuthSession {
 }
 
 export class CognitoAuthService {
+  private static normalizeErrorMessage(error: any): string {
+    const errorMessage = error?.message || error?.toString() || 'An unexpected error occurred';
+    const lowerErrorMessage = errorMessage.toLowerCase();
+    
+    // Check for specific error messages that should be replaced with user-friendly ones
+    if (lowerErrorMessage.includes('invalid user pool') || 
+        lowerErrorMessage.includes('user pool') && (lowerErrorMessage.includes('not configured') || lowerErrorMessage.includes('not found'))) {
+      return 'Oop! This is not a recognized phone number. Please contact Isaac to get access';
+    }
+    
+    return errorMessage;
+  }
+
+  private static ensureConfigured() {
+    // Try to configure if not already configured
+    try {
+      configureAmplify();
+    } catch (error: any) {
+      const errorMessage = error.message || 'Unknown configuration error';
+      console.error('Amplify configuration error:', errorMessage);
+      throw new Error(
+        `AWS Amplify is not properly configured: ${errorMessage}. ` +
+        'Please ensure NEXT_PUBLIC_AWS_COGNITO_USER_POOL_ID and NEXT_PUBLIC_AWS_COGNITO_CLIENT_ID are set in your .env.local file.'
+      );
+    }
+  }
+
   static async signUp(data: SignUpData): Promise<{ success: boolean; message: string; userId?: string }> {
+    this.ensureConfigured();
     try {
       const { isSignUpComplete, userId, nextStep } = await signUp({
         username: data.phoneNumber,
@@ -62,12 +91,13 @@ export class CognitoAuthService {
       console.error('Sign up error:', error);
       return {
         success: false,
-        message: error.message || 'Failed to create account',
+        message: this.normalizeErrorMessage(error),
       };
     }
   }
 
   static async confirmSignUp(phoneNumber: string, code: string): Promise<{ success: boolean; message: string }> {
+    this.ensureConfigured();
     try {
       await confirmSignUp({
         username: phoneNumber,
@@ -82,12 +112,13 @@ export class CognitoAuthService {
       console.error('Confirm sign up error:', error);
       return {
         success: false,
-        message: error.message || 'Failed to verify phone number',
+        message: this.normalizeErrorMessage(error),
       };
     }
   }
 
   static async resendConfirmationCode(phoneNumber: string): Promise<{ success: boolean; message: string }> {
+    this.ensureConfigured();
     try {
       await resendSignUpCode({
         username: phoneNumber,
@@ -101,12 +132,13 @@ export class CognitoAuthService {
       console.error('Resend code error:', error);
       return {
         success: false,
-        message: error.message || 'Failed to resend verification code',
+        message: this.normalizeErrorMessage(error),
       };
     }
   }
 
   static async signIn(data: SignInData): Promise<{ success: boolean; message: string; session?: AuthSession }> {
+    this.ensureConfigured();
     try {
       const { isSignedIn, nextStep } = await signIn({
         username: data.phoneNumber,
@@ -130,12 +162,13 @@ export class CognitoAuthService {
       console.error('Sign in error:', error);
       return {
         success: false,
-        message: error.message || 'Failed to sign in',
+        message: this.normalizeErrorMessage(error),
       };
     }
   }
 
   static async signOut(): Promise<{ success: boolean; message: string }> {
+    this.ensureConfigured();
     try {
       await signOut();
       return {
@@ -146,12 +179,13 @@ export class CognitoAuthService {
       console.error('Sign out error:', error);
       return {
         success: false,
-        message: error.message || 'Failed to sign out',
+        message: this.normalizeErrorMessage(error),
       };
     }
   }
 
   static async getCurrentSession(): Promise<AuthSession> {
+    this.ensureConfigured();
     try {
       const session = await fetchAuthSession();
       const user = await getCurrentUser();
@@ -187,6 +221,7 @@ export class CognitoAuthService {
   }
 
   static async isAuthenticated(): Promise<boolean> {
+    this.ensureConfigured();
     try {
       const session = await this.getCurrentSession();
       return session.isAuthenticated;
@@ -197,6 +232,7 @@ export class CognitoAuthService {
   }
 
   static async getCurrentUser(): Promise<AuthUser | null> {
+    this.ensureConfigured();
     try {
       const session = await this.getCurrentSession();
       return session.user;
