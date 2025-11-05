@@ -11,7 +11,7 @@ export default function Home() {
           Isaac Hirsch
         </h1>
         <p className="text-xl md:text-2xl mt-4 text-gray-600 italic">
-          Adaptive Engineer · Full-Stack Creator · Global Thinker
+          Adaptive Engineer · Full-Stack Creator · Team Player
         </p>
       </header>
 
@@ -33,8 +33,7 @@ export default function Home() {
               Professional
             </h2>
             <p className="text-gray-700 mb-4">
-              Explore my CV, engineering philosophy, and tech projects grounded
-              in reliable, maintainable, and scalable development.
+              Explore my CV, engineering philosophy, and tech projects.
             </p>
             <Link
               href="/business"
@@ -60,8 +59,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-gray-800 mb-2">Family</h2>
             <p className="text-gray-700 mb-4">
               A thoughtfully designed space for my family to stay connected,
-              share updates, and support each other across distances. A quiet
-              reflection of what drives me beyond the screen
+              share updates.
             </p>
             <Link
               href="/personal"
@@ -88,8 +86,7 @@ export default function Home() {
               Extra Curricular
             </h2>
             <p className="text-gray-700 mb-4">
-              Creative projects, sports, travel, and side-hustles — these keep
-              me balanced and inspired.
+              Creative projects, sports, and travel.
             </p>
             <Link
               href="/extracurricular"
