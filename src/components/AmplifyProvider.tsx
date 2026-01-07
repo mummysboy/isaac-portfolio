@@ -1,17 +1,22 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { configureAmplify } from '@/utils/amplify-config';
 
-export function AmplifyProvider({ children }: { children: React.ReactNode }) {
-  const [configError, setConfigError] = useState<string | null>(null);
+// Configure Amplify synchronously when this module is imported
+// This ensures Amplify is configured before any child components render
+let configResult: { success: boolean; error?: string } = { success: true };
+if (typeof window !== 'undefined') {
+  // The module-level code in amplify-config.ts should have already configured Amplify
+  // This call ensures it's properly configured and captures any errors
+  configResult = configureAmplify();
+}
 
-  useEffect(() => {
-    const result = configureAmplify();
-    if (!result.success && result.error) {
-      setConfigError(result.error);
-    }
-  }, []);
+export function AmplifyProvider({ children }: { children: React.ReactNode }) {
+  // Use the already-computed config result from module load
+  const [configError] = useState<string | null>(
+    !configResult.success ? configResult.error || null : null
+  );
 
   // Still render children even if config fails, so the app doesn't completely break
   // Individual auth operations will handle the error appropriately
