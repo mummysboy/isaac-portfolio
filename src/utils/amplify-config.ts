@@ -46,8 +46,13 @@ function getAmplifyConfig() {
 }
 
 export function configureAmplify(): { success: boolean; error?: string } {
+  // Early return for SSR/build time - don't configure during server-side rendering
+  if (typeof window === 'undefined') {
+    return { success: true };
+  }
+
   // Ensure Amplify is initialized first (module-level code should have done this)
-  if (typeof window !== 'undefined' && !isInitialized) {
+  if (!isInitialized) {
     try {
       Amplify.configure({
         Auth: {
@@ -86,13 +91,11 @@ export function configureAmplify(): { success: boolean; error?: string } {
   const hasClientId = !!process.env.NEXT_PUBLIC_AWS_COGNITO_CLIENT_ID;
 
   if (!hasUserPoolId || !hasClientId) {
-    if (typeof window !== 'undefined') {
-      if (!hasUserPoolId) {
-        console.warn('Missing NEXT_PUBLIC_AWS_COGNITO_USER_POOL_ID environment variable');
-      }
-      if (!hasClientId) {
-        console.warn('Missing NEXT_PUBLIC_AWS_COGNITO_CLIENT_ID environment variable');
-      }
+    if (!hasUserPoolId) {
+      console.warn('Missing NEXT_PUBLIC_AWS_COGNITO_USER_POOL_ID environment variable');
+    }
+    if (!hasClientId) {
+      console.warn('Missing NEXT_PUBLIC_AWS_COGNITO_CLIENT_ID environment variable');
     }
     
     // Configure Amplify with placeholder values to prevent "Amplify has not been configured" errors
@@ -128,9 +131,7 @@ export function configureAmplify(): { success: boolean; error?: string } {
     return { success: true };
   } catch (error: any) {
     const errorMessage = error?.message || 'Failed to configure AWS Amplify';
-    if (typeof window !== 'undefined') {
-      console.error('Failed to configure Amplify:', error);
-    }
+    console.error('Failed to configure Amplify:', error);
     return { 
       success: false, 
       error: errorMessage 
