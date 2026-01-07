@@ -7,11 +7,9 @@ export function AmplifyProvider({ children }: { children: React.ReactNode }) {
   const [configError, setConfigError] = useState<string | null>(null);
 
   useEffect(() => {
-    try {
-      configureAmplify();
-    } catch (error: any) {
-      console.error('Failed to configure Amplify:', error);
-      setConfigError(error.message || 'Failed to configure AWS Amplify');
+    const result = configureAmplify();
+    if (!result.success && result.error) {
+      setConfigError(result.error);
     }
   }, []);
 

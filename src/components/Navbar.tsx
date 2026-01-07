@@ -15,7 +15,12 @@ export default function Navbar() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showEmail, setShowEmail] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,7 +43,8 @@ export default function Navbar() {
     }
   }, [copied]);
 
-  if (pathname === "/") return null;
+  // Prevent hydration mismatch by only checking pathname after mount
+  if (!mounted || pathname === "/") return null;
 
   return (
     <>

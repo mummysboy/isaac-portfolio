@@ -99,7 +99,7 @@ export default function Home() {
       </section>
 
       <footer className="text-center text-sm text-gray-600 mt-20">
-        © {new Date().getFullYear()} Isaac Hirsch ·{" "}
+        © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Isaac Hirsch ·{" "}
         <a
           href="mailto:isaachirsch@gmail.com"
           className="underline hover:text-blue-600"

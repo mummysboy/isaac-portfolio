@@ -47,11 +47,12 @@ export class CognitoAuthService {
 
   private static ensureConfigured() {
     // Try to configure if not already configured
-    try {
-      configureAmplify();
-    } catch (error: any) {
-      const errorMessage = error.message || 'Unknown configuration error';
-      console.error('Amplify configuration error:', errorMessage);
+    const result = configureAmplify();
+    if (!result.success) {
+      const errorMessage = result.error || 'Unknown configuration error';
+      if (typeof window !== 'undefined') {
+        console.error('Amplify configuration error:', errorMessage);
+      }
       throw new Error(
         `AWS Amplify is not properly configured: ${errorMessage}. ` +
         'Please ensure NEXT_PUBLIC_AWS_COGNITO_USER_POOL_ID and NEXT_PUBLIC_AWS_COGNITO_CLIENT_ID are set in your .env.local file.'
@@ -188,22 +189,43 @@ export class CognitoAuthService {
     this.ensureConfigured();
     try {
       const session = await fetchAuthSession();
-      const user = await getCurrentUser();
-
-      if (session.tokens && user) {
+      
+      // Only attempt to get current user if we have valid tokens
+      if (!session.tokens) {
         return {
-          user: {
-            id: user.userId,
-            phoneNumber: user.username,
-            username: user.username,
-            attributes: user.signInDetails?.loginId ? { phoneNumber: user.signInDetails.loginId } : undefined,
-          },
-          isAuthenticated: true,
-          tokens: {
-            accessToken: session.tokens.accessToken.toString(),
-            idToken: session.tokens.idToken?.toString() || '',
-            refreshToken: '', // Refresh token is not directly accessible in v6
-          },
+          user: null,
+          isAuthenticated: false,
+        };
+      }
+
+      try {
+        const user = await getCurrentUser();
+        
+        if (user) {
+          return {
+            user: {
+              id: user.userId,
+              phoneNumber: user.username,
+              username: user.username,
+              attributes: user.signInDetails?.loginId ? { phoneNumber: user.signInDetails.loginId } : undefined,
+            },
+            isAuthenticated: true,
+            tokens: {
+              accessToken: session.tokens.accessToken.toString(),
+              idToken: session.tokens.idToken?.toString() || '',
+              refreshToken: '', // Refresh token is not directly accessible in v6
+            },
+          };
+        }
+      } catch (authError: any) {
+        // UserUnAuthenticatedException is expected when user is not authenticated
+        // Only log if it's a different error
+        if (!authError?.name?.includes('UserUnAuthenticated')) {
+          console.error('Get current user error:', authError);
+        }
+        return {
+          user: null,
+          isAuthenticated: false,
         };
       }
 
