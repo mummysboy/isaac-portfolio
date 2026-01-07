@@ -5,16 +5,23 @@ import { configureAmplify } from '@/utils/amplify-config';
 
 export function AmplifyProvider({ children }: { children: React.ReactNode }) {
   const [configError, setConfigError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
-  // Configure Amplify in useEffect to ensure it only runs on the client
-  // and doesn't interfere with SSR/build time
+  // Ensure component only runs on client side
   useEffect(() => {
+    setMounted(true);
     // Configure Amplify when component mounts on the client
+    // and doesn't interfere with SSR/build time
     const result = configureAmplify();
     if (!result.success && result.error) {
       setConfigError(result.error);
     }
   }, []);
+
+  // During SSR/build time, just render children without client-side features
+  if (!mounted) {
+    return <>{children}</>;
+  }
 
   // Still render children even if config fails, so the app doesn't completely break
   // Individual auth operations will handle the error appropriately
